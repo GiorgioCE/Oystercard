@@ -23,4 +23,27 @@ RSpec.describe Oystercard do
       expect{ subject.top_up 1 }.to raise_error "Can't exceed #{maximum_balance}"
     end
   end
+   describe "#deduct" do
+     it "deducts money from the card" do
+       subject.top_up 20
+       expect{subject.deduct 1}.to change { subject.balance}.by -1
+     end
+   end
+   describe "#in_journey?" do
+     it "shows if we are in the middle of a journey" do
+       @state = true
+       expect(subject.in_journey?).to eq(nil)
+     end
+   end
+   describe "#touch_in" do
+     it "tracks when you start a journey" do
+       expect(subject.touch_in).to eq("start")
+     end
+   end
+   describe "#touch_out" do
+     it "tracks when you end a journey" do
+       expect(subject.touch_out).to eq("end")
+     end
+   end
+
 end
