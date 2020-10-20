@@ -37,12 +37,20 @@ RSpec.describe Oystercard do
    end
    describe "#touch_in" do
      it "tracks when you start a journey" do
+       subject.top_up 10
        expect(subject.touch_in).to eq("start")
      end
+    it "checks it's the minimum balance" do
+      minimum_balance = Oystercard::MINIMUM_BALANCE
+      expect{subject.touch_in}.to raise_error ("Insufficient funds #{minimum_balance}")
+    end
    end
    describe "#touch_out" do
      it "tracks when you end a journey" do
        expect(subject.touch_out).to eq("end")
+     end
+     it "changes the balance when you touch out" do
+       expect{subject.touch_out}.to change{subject.balance}.by -5
      end
    end
 
