@@ -17,10 +17,6 @@ fail ("Can't exceed 90") if amount + balance > MAXIMUM_BALANCE
 
   end
 
-  def deduct(amount)
-    @balance -= amount
-  end
-
   def in_journey?
     @state
   end
@@ -34,5 +30,11 @@ fail ("Can't exceed 90") if amount + balance > MAXIMUM_BALANCE
     deduct(5)
     @status = "end"
   end
+
+    private
+
+    def deduct(amount)
+      @balance -= amount
+    end
 
 end
