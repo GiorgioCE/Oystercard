@@ -3,7 +3,7 @@ class Oystercard
 MAXIMUM_BALANCE = 90
 MINIMUM_BALANCE = 1
 
-attr_reader :balance, :state, :entry_station
+attr_reader :balance, :entry_station
   def initialize
     @balance = 0
     @entry_station = nil
@@ -18,7 +18,7 @@ fail ("Can't exceed 90") if amount + balance > MAXIMUM_BALANCE
   end
 
   def in_journey?
-    @state
+    @entry_station != nil
   end
 
   def touch_in(station)

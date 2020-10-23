@@ -31,8 +31,7 @@ RSpec.describe Oystercard do
    # end
    describe "#in_journey?" do
      it "shows if we are in the middle of a journey" do
-       @state = true
-       expect(subject.in_journey?).to eq(nil)
+       expect(subject.in_journey?).to eq(false)
      end
    end
    describe "#touch_in" do
