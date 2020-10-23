@@ -36,21 +36,41 @@ RSpec.describe Oystercard do
      end
    end
    describe "#touch_in" do
+     let(:station) {double :station}
+     before(:each) do
+       allow(station).to receive(:name).and_return("London")
+     end
      it "tracks when you start a journey" do
        subject.top_up 10
-       expect(subject.touch_in).to eq("start")
+       expect(subject.touch_in(station)).to eq("start")
      end
     it "checks it's the minimum balance" do
       minimum_balance = Oystercard::MINIMUM_BALANCE
-      expect{subject.touch_in}.to raise_error ("Insufficient funds #{minimum_balance}")
+      expect{subject.touch_in(station)}.to raise_error ("Insufficient funds #{minimum_balance}")
+    end
+    it 'remembers the entry station' do
+
+      subject.top_up 20
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq ("London")
     end
    end
    describe "#touch_out" do
+     let(:station) {double :station}
+     before(:each) do
+       allow(station).to receive(:name).and_return("London")
+     end
      it "tracks when you end a journey" do
        expect(subject.touch_out).to eq("end")
      end
      it "changes the balance when you touch out" do
-       expect{subject.touch_out}.to change{subject.balance}.by -5
+      expect{subject.touch_out}.to change{subject.balance}.by -5
+     end
+     it 'resets the entry station' do
+       subject.top_up 20
+       subject.touch_in(station)
+       subject.touch_out
+      expect(subject.entry_station).to eq(nil)
      end
    end
 
